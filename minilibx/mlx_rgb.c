@@ -6,8 +6,8 @@
 
 struct s_col_name mlx_col_name[] =
 {
- { "snow" , 0xfffafa },
  { "ghost white" , 0xf8f8ff },
+ { "snow" , 0xfffafa },
  { "ghostwhite" , 0xf8f8ff },
  { "white smoke" , 0xf5f5f5 },
  { "whitesmoke" , 0xf5f5f5 },

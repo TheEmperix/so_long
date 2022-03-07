@@ -1,31 +1,31 @@
 NAME = so_long
-SRC = ./gnl/get_next_line.c ./gnl/get_next_line_utils.c ./src_game/2.c ./src_game/ft_itoa.c \
- 	./src_game/draw_object.c ./src_game/move.c
-OBJ = get_next_line.o get_next_line_utils.o 2.o ft_itoa.o draw_object.o  move.o
+CC = gcc
+FLAGS = -Wall -Werror -Wextra
+FLAGS_M = -lmlx -framework OpenGL -framework AppKit
+RM = rm -rf
 
-MAIN_SRC = ./src_game/so_long.c ./src_game/loading_object.c ./src_game/draw_maps.c	./src_game/1.c
-MAIN_OBJ = so_long.o loading_object.o draw_maps.o 1.o
+HEADER = ./inc/so_long.h ./gnl/get_next_line.h
 
-all: $(NAME)
+SRC = ./src/so_long.c ./src/check.c ./gnl/get_next_line.c ./gnl/get_next_line_utils.c\
+	./src/draw.c ./src/movements.c ./src/search.c ./src/utils.c ./src/ft_itoa.c
 
-$(NAME): $(OBJ) $(MAIN_OBJ)
-	make -C ./printf
-	cc -Lminilibx -lmlx -framework OpenGL -framework AppKit  $(OBJ) $(MAIN_OBJ) ./printf/libftprintf.a -o so_long
+OBJ = $(patsubst %.c,%.o,$(SRC))
 
-$(OBJ): $(SRC) ./gnl/get_next_line.h
-	cc -Wall -Werror -Wextra -I./gnl/ -c $(SRC)
+all:	$(NAME)
 
-$(MAIN_OBJ): $(MAIN_SRC) ./src_game/so_long.h
-	cc -Wall -Werror -Wextra -I./src_game/so_long.h -c $(MAIN_SRC)
+$(NAME): 	$(OBJ)
+			$(CC) $(FLAGS) $(FLAGS_M) $(OBJ) -o $(NAME)
+
+%.o:	%.c Makefile $(HEADER)
+		$(CC) $(FLAGS) -c $< -o $@
 
 clean:
-	make fclean -C ./printf
-	rm -rf *.o
+		$(RM) ${OBJ}
 
-fclean: clean
-	make fclean -C ./printf
-	rm -rf $(NAME)
+fclean:	clean
+		$(RM) so_long
 
-re: fclean all
+re:	fclean all
 
 .PHONY: all clean fclean re
+
